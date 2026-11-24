@@ -8,31 +8,42 @@
 @font-face{font-family:Outfit;font-weight:700;src:url(fonts/outfit-700.woff2) format("woff2")}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#fff;font-family:Outfit,Arial,sans-serif;color:#252820}
 .wrap{display:flex;width:100vw;height:100vh}
-.shop{flex:0 0 66.667%;height:100%;border:0;border-right:1.5px solid #D8D5CE;background:#fff}
-.side{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(24px,3.4vw,56px);background:#F6F5F1}
-.k{font:500 clamp(11px,.95vw,15px)/1 Outfit;letter-spacing:.18em;text-transform:uppercase;color:#6A6862;display:flex;align-items:center;gap:10px}
-.k b{width:28px;height:2px;background:#252820;display:inline-block}
-h1{font-weight:700;font-size:clamp(30px,3.5vw,58px);line-height:1.02;letter-spacing:-.03em;margin:16px 0 0}
-.qr{margin:clamp(20px,3.2vh,36px) 0 0;background:#fff;border-radius:20px;padding:clamp(14px,1.5vw,22px);width:min(100%,clamp(170px,19vw,300px));box-shadow:0 0 0 1.5px #D8D5CE}
+.shop{flex:0 0 66.667%;height:100%;border:0;border-right:1.5px solid #D8D5CE;background:#fff;object-fit:cover;object-position:0 0}
+.side{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3.2vh,34px);padding:0 clamp(22px,3vw,50px);background:#F6F5F1}
+.k{font:500 clamp(10px,.86vw,14px)/1 Outfit;letter-spacing:.18em;text-transform:uppercase;color:#6A6862;display:flex;align-items:center;gap:10px}
+.k b{width:26px;height:2px;background:#252820;display:inline-block}
+h1{font-weight:700;font-size:clamp(28px,3.25vw,54px);line-height:1.02;letter-spacing:-.03em;margin:14px 0 0}
+h2{font-weight:700;font-size:clamp(22px,2.3vw,38px);line-height:1.06;letter-spacing:-.025em;margin:12px 0 0}
+p{font-weight:400;font-size:clamp(14px,1.28vw,21px);line-height:1.3;color:#6A6862;margin:12px 0 0}
+hr{border:0;border-top:1.5px solid #DAD7D0;margin:0;width:100%}
+.row{display:flex;align-items:center;gap:clamp(14px,1.5vw,24px);margin-top:clamp(14px,2vh,22px)}
+.qr{flex:0 0 auto;background:#fff;border-radius:18px;padding:clamp(10px,1vw,16px);width:clamp(120px,12.5vw,196px);box-shadow:0 0 0 1.5px #D8D5CE}
 .qr img{display:block;width:100%;height:auto}
-.at{font-weight:700;font-size:clamp(22px,2.3vw,38px);letter-spacing:-.02em;margin:clamp(14px,2.2vh,24px) 0 0;display:flex;align-items:center;gap:.3em}
-.sw{display:inline-block;width:.5em;height:.76em;border-radius:.25em;background:#252820;position:relative}
+.how{font-weight:500;font-size:clamp(13px,1.15vw,19px);line-height:1.3}
+.at{font-weight:700;font-size:clamp(18px,1.75vw,29px);letter-spacing:-.02em;display:flex;align-items:center;gap:.3em;margin-top:8px}
+.sw{display:inline-block;width:.5em;height:.76em;border-radius:.25em;background:#252820;position:relative;flex:0 0 auto}
 .sw i{position:absolute;left:14.5%;width:71%;aspect-ratio:1;border-radius:50%;top:9.6%;background:#DCF25A;box-shadow:0 0 .1em .025em rgba(220,242,90,.75)}
-ul{list-style:none;padding:0;margin:clamp(18px,3vh,34px) 0 0;display:grid;gap:10px}
-li{font-weight:500;font-size:clamp(14px,1.25vw,20px);line-height:1.25;padding:13px 16px;border-radius:13px;border:1.5px solid #E0DDD6;background:#fff}
-li small{display:block;font:500 clamp(10px,.8vw,12px)/1 Outfit;letter-spacing:.16em;text-transform:uppercase;color:#8B8982;margin-bottom:6px}
+.chip{align-self:flex-start;font-weight:500;font-size:clamp(12px,1.05vw,17px);padding:11px 15px;border-radius:12px;border:1.5px solid #252820;background:#fff}
+.chip small{font:500 clamp(9px,.74vw,12px)/1 Outfit;letter-spacing:.16em;text-transform:uppercase;color:#8B8982;margin-right:10px}
 </style></head><body>
 <div class="wrap">
-  <iframe class="shop" src="https://modestryon.github.io/neoul/#bawal" title="NEOUL Collection 01"></iframe>
+  <!--SHOP--><iframe class="shop" src="https://modestryon.github.io/neoul/#shawl" title="NEOUL Collection 01"></iframe><!--/SHOP-->
   <aside class="side">
-    <div class="k"><b></b>Follow on Instagram</div>
-    <h1>Find Your<br>Best Hijab</h1>
-    <div class="qr"><img src="qr-instagram.svg" alt="QR code to instagram.com/modestry_on"></div>
-    <div class="at"><i class="sw"><i></i></i>@modestry_on</div>
-    <ul>
-      <li><small>Filming?</small>Tag @modestry_on in your video.</li>
-      <li><small>Know someone who wears a hijab?</small>Send her our page.</li>
-    </ul>
+    <div>
+      <div class="k"><b></b>NEOUL × Modestry On</div>
+      <h1>See it on you<br>before you buy.</h1>
+      <p>Every scarf here has a Try On button.<br>One photo, five ways to wear it.</p>
+    </div>
+    <hr>
+    <div>
+      <div class="k"><b></b>We'd love your take</div>
+      <h2>Which brand should we add next?</h2>
+      <div class="row">
+        <div class="qr"><img src="qr-instagram.svg" alt="QR code to instagram.com/modestry_on"></div>
+        <div><div class="how">Scan, then comment<br>or DM us your pick.</div><div class="at"><i class="sw"><i></i></i>@modestry_on</div></div>
+      </div>
+    </div>
+    <div class="chip"><small>Filming?</small>Tag @modestry_on</div>
   </aside>
 </div>
 </body></html>
