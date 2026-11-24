@@ -1625,7 +1625,8 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
   if(KIOSK) return;
   const SWAP={"img/why-1.webp":"img/loop-why-1.webp","img/why-2.webp":"img/loop-why-2.webp","img/film-1.jpg":"img/loop-bw-02-1.jpg","img/film-2.jpg":"img/loop-bw-02-2.jpg","img/film-3.jpg":"img/loop-bw-02-3.jpg","img/film-4.jpg":"img/loop-bw-02-4.jpg","img/film-strip.jpg":"img/loop-strip.jpg"};
   const swapImgs=()=>document.querySelectorAll("#view img").forEach(im=>{ const k=im.getAttribute("src"); if(SWAP[k]) im.setAttribute("src",SWAP[k]); });
-  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const ONLY=/[?&]only=tryon\b/.test(location.search); let fast=ONLY;   // ?only=tryon: hurry to the try-on screen, then cycle the drapes for good
+  const sleep=ms=>new Promise(r=>setTimeout(r,fast?Math.min(ms,60):ms));
   const tap=async(sel,wait=15000)=>{ const t0=Date.now(); let el; while(!(el=view.querySelector(sel))||el.disabled){ if(Date.now()-t0>wait) return false; await sleep(200); } el.click(); return true; };
   const tapNth=async(sel,i)=>{ const els=[...view.querySelectorAll(sel)]; if(els[i]){ els[i].click(); return true; } return false; };
   if(/[?&]notop\b/.test(location.search)) document.documentElement.classList.add("notop");
@@ -1647,7 +1648,9 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
     if(!await tap('#seeRes',20000)) return; await sleep(FT(3000,4000));
     if(!await tap('#seeRes',20000)) return; await sleep(FT(2000,2500));
     if(!await tap('[data-act="wear"]')) return; await sleep(150);
-    st.sku="bw-02"; st.drape=1; go("tryon"); await sleep(FT(700,850));
+    st.sku="bw-02"; st.drape=1; go("tryon"); fast=false;
+    if(ONLY){ await sleep(1400); for(;;){ const n=document.querySelectorAll('[data-drape]').length; for(let i=1;i<=n;i++){ await tapNth('[data-drape]',i%n); await sleep(1300); } } }
+    await sleep(FT(700,850));
     { const n=document.querySelectorAll('[data-drape]').length; for(let i=1;i<n;i++){ await tapNth('[data-drape]',i); await sleep(FT(500,700)); } await sleep(FT(0,300)); }
     if(!await tap('[data-act="card"]')) return; await sleep(FT(2400,2400));
   }
