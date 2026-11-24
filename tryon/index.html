@@ -1039,7 +1039,7 @@ const screens = {
     <div class="foot flex"><button class="btn lime" data-act="share" type="button" id="shareBtn">Share</button><button class="btn ghost" data-act="save" type="button" id="saveBtn">Save image</button></div></div>`
 };
 let screen="intro", scanRun=0;
-const ORDER=["intro","start","photo","align","analysing","result","tryon","card"];
+const ORDER=["intro","start","photo","align","analysing","result","tryon","card"]; if(window.KIOSK) ORDER.splice(1,1);   // the touch demo goes straight from the intro to the photo
 async function render(){
   document.body.classList.toggle("full", screen==="film"||screen==="intro"||screen==="introOld");
   view.innerHTML = screens[screen](); window.scrollTo(0,0); view.scrollTop=0;
@@ -1049,6 +1049,7 @@ async function render(){
   if (screen==="start"){ clearInterval(window.__whyT); let n=0; window.__whyT=setInterval(()=>{ if(screen!=="start") return clearInterval(window.__whyT); n++;
       document.querySelectorAll(".th.cyc").forEach(th=>{ const im=th.querySelectorAll("img"); im.forEach((x,i)=>x.classList.toggle("on",i===n%im.length)); }); },1300); }
   if (screen==="introOld"){ requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("intro").classList.add("go"))); return; }
+  if (screen==="intro" && window.KIOSK_INTRO) return window.KIOSK_INTRO();
   if (screen==="intro"){ const el=document.getElementById("intro"), IK=window.INTRO_K||1, at=(ms,c)=>setTimeout(()=>{ if(screen==="intro") el.classList.add(c); },ms*IK);
     // the switch starts as a bar laid over the word HIJAB, then folds into the hijab-shaped O
     try{ const b=document.getElementById("ixhijab").getBBox(), sw=document.getElementById("ixsw");
@@ -1455,7 +1456,7 @@ document.addEventListener("pointerup",e=>{
   const hit=CHIPS.find(c=>x>=c.x-6&&x<=c.x+c.w+6&&y>=c.y-6&&y<=c.y+c.h+6); if(hit) SCANPICK(hit.c);
 });
 document.addEventListener("click",async e=>{
-  if(e.target.closest("#intro")) return go("start");
+  if(e.target.closest("#intro")) return go(window.KIOSK?"photo":"start");
   const t=e.target.closest("button"); if(!t) return;
   const a=t.dataset.act;
   if(a==="skipfilm") return go("intro");
@@ -1542,7 +1543,25 @@ html.loopmode .skip{display:none}
 #camframe .loopshot{position:absolute;left:2.333%;top:2.604%;width:95.975%;height:95.975%;object-fit:fill;z-index:1}
 html.loopmode #camframe{background:#B6B6B9}
 html.notop .scr .top{display:none}
+html.toppad .scr{padding-top:54px!important}
 html.kiosk #toEditor,html.kiosk #nextS{display:none!important}
+html.kiosk #camframe .loopshot{left:0;top:0;width:100%;height:100%;object-fit:cover}
+html.kiosk #camframe.hasSample svg{display:none}
+html.kiosk .try .lockup{order:-1;display:flex;justify-content:space-between;align-items:center;align-self:center;width:var(--pw,100%);max-width:100%;margin:0;padding:0 2px}
+html.kiosk .try .lockup img{justify-self:auto;transform:none}
+.intro.kx{position:relative;display:block;min-height:100vh;min-height:100dvh;padding:0;overflow:hidden;background:#fff;cursor:pointer}
+.kx #kfind{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:Outfit,var(--font);font-weight:500;letter-spacing:-.012em;line-height:1.27;color:#252820;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.kx #kfind.on{opacity:1;transform:none}.kx #kfind.out{opacity:0;transform:translateY(-14px);transition:opacity .4s ease,transform .5s ease}
+.kx .kph{line-height:1}.kx .kph i{display:inline-block;width:.5em;height:.76em;vertical-align:baseline}
+.kx #kart{position:absolute}.kx #kart img{position:absolute;opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.kx #kart.on img{opacity:1;transform:none}.kx #kart.on img:nth-child(2){transition-delay:.1s}.kx #kart.on img:nth-child(3){transition-delay:.3s}
+.kx #ktap{position:absolute;left:0;right:0;text-align:center;font-family:Outfit,var(--font);font-weight:500;letter-spacing:.2em;color:#A3A19A;opacity:0;transition:opacity .6s ease}.kx #ktap.on{opacity:1}
+.kx #ksw{position:absolute;width:.5em;height:.76em;border-radius:.25em;background:#252820;opacity:0;z-index:2;transition:left .8s cubic-bezier(.6,0,.2,1),top .8s cubic-bezier(.6,0,.2,1),opacity .5s ease}
+.kx #ksw.on{opacity:1}
+.kx #ksw i{position:absolute;left:14.5%;width:71%;aspect-ratio:1;border-radius:50%;background:#fff;top:44.3%;transition:top .55s cubic-bezier(.5,1.6,.5,1),background .3s ease .2s,box-shadow .3s ease .2s}
+.kx #ksw.lit i{top:9.6%;background:#DCF25A;box-shadow:0 0 .1em .025em rgba(220,242,90,.75)}
+.kx #ksw.pulse i{animation:kpulse 1.1s ease-out 2}
+@keyframes kpulse{0%{box-shadow:0 0 .1em .025em rgba(220,242,90,.75)}45%{box-shadow:0 0 .34em .14em rgba(220,242,90,.95)}100%{box-shadow:0 0 .1em .025em rgba(220,242,90,.75)}}
 .kbtn{align-self:center;margin:2px auto 12px;padding:13px 22px;border-radius:13px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font:600 16px/1 Outfit,sans-serif;letter-spacing:-.01em;cursor:pointer}
 #viewGhost *{animation:none!important}
 html.loopmode .foot.shut{height:54px;gap:36px}
@@ -1568,6 +1587,34 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
     document.documentElement.classList.add("kiosk");
     let idle=Date.now(); ["pointerdown","keydown","touchstart"].forEach(e=>addEventListener(e,()=>{ idle=Date.now(); },{passive:true,capture:true}));
     setInterval(()=>{ if(screen!=="intro" && Date.now()-idle>90000) location.reload(); },5000);
+    // no camera prompt on arrival: the sample model is on screen first, the camera only starts when the shutter is tapped
+    const realCam=startCam; let camOn=false; try{ startCam=function(){}; }catch(e){}
+    addEventListener("click",e=>{ if(screen!=="photo"||camOn||!e.target.closest('[data-act="cam"]')) return; e.stopPropagation(); e.preventDefault();
+      camOn=true; const f=document.getElementById("camframe"); if(f){ f.classList.remove("hasSample"); const im=f.querySelector(".loopshot"); if(im) im.remove(); } realCam(); },true);
+    setInterval(()=>{
+      if(screen!=="photo") camOn=false;
+      if(screen==="photo" && !camOn){ const f=document.getElementById("camframe"); if(f && !f.querySelector(".loopshot")){ const im=new Image(); im.className="loopshot"; im.src="img/loop-model.jpg"; im.alt="Sample model"; f.appendChild(im); f.classList.add("hasSample"); } }
+      if(screen==="tryon"){ const c=document.getElementById("stage"), l=document.querySelector(".try .lockup"); if(c&&l) l.style.setProperty("--pw",c.getBoundingClientRect().width+"px"); }
+    },120);
+    // intro: the same motion as the iPad film (Find Your Best Hijab, switch turns on, MODEST / TRY / ON)
+    screens.intro=()=>`<div class="intro kx" id="intro" role="button" tabindex="0" aria-label="Find your best hijab. Modest Try On. Tap to try on">
+      <div id="kfind">${["Find","Your","Best","Hijab"].map(w=>`<div>${w}</div>`).join("")}<div class="kph"><i></i></div></div>
+      <div id="kart">${["lg-modest","lg-try","lg-n"].map(n=>`<img src="img/${n}.png" alt="">`).join("")}</div>
+      <div id="ktap">TAP TO TRY ON</div><div id="ksw"><i></i></div></div>`;
+    window.KIOSK_INTRO=()=>{ const el=document.getElementById("intro"), $=q=>el.querySelector(q), W=el.clientWidth, H=el.clientHeight, k=Math.min(W/834,H/1194);
+      const find=$("#kfind"), art=$("#kart"), tap=$("#ktap"), sw=$("#ksw"), aw=480*k, sc=aw/1830, SF=582*sc/0.76, ax=(W-aw)/2, ay=H*0.21+40*k, px=x=>(x+8)*sc, py=y=>(y+272)*sc;
+      find.style.fontSize=127*k+"px"; $(".kph").style.cssText=`font-size:${SF}px;margin-top:${14*k}px`;
+      art.style.cssText=`left:${ax}px;top:${ay}px;width:${aw}px;height:${1766*sc}px`;
+      [[-6,-262,1814,351],[511,328,791,351],[958,918,306,336]].forEach((a,i)=>{ art.children[i].style.cssText=`left:${px(a[0])}px;top:${py(a[1])}px;width:${a[2]*sc}px;height:${a[3]*sc}px`; });
+      tap.style.top=(ay+1766*sc+70*k)+"px"; tap.style.fontSize=Math.max(13,24*k)+"px";
+      const run=()=>{ if(screen!=="intro"||!el.isConnected) return; const ph=$(".kph i").getBoundingClientRect(), eb=el.getBoundingClientRect();
+        sw.style.transition="none"; sw.style.fontSize=SF+"px"; sw.style.left=(ph.left-eb.left)+"px"; sw.style.top=(ph.top-eb.top)+"px"; void sw.offsetWidth; sw.style.transition="";
+        const at=(ms,f)=>setTimeout(()=>{ if(screen==="intro"&&el.isConnected) f(); },ms);
+        at(120,()=>{ find.classList.add("on"); sw.classList.add("on"); }); at(1000,()=>sw.classList.add("lit"));
+        at(1500,()=>{ find.classList.add("out"); sw.style.left=(ax+px(556))+"px"; sw.style.top=(ay+py(896))+"px"; });
+        at(1850,()=>art.classList.add("on")); at(2700,()=>sw.classList.add("pulse")); at(3100,()=>tap.classList.add("on")); };
+      (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>requestAnimationFrame(run)); };
+    if(screen==="intro") render();   // the page drew the old intro before this block ran
   }
   if(ON) document.documentElement.classList.add("loopmode");
   if(ON){ window.FADE_NAV=380; window.INTRO_SEQ=[[30,"s1"],[900,"s2"],[1250,"s3"],[1850,"s4"],[2100,"s5"],[2300,"s6"]]; window.SCAN_D=[[700,1000],[2200],[2200]]; // demo loop: opening and scans play faster
@@ -1582,6 +1629,7 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
   const tap=async(sel,wait=15000)=>{ const t0=Date.now(); let el; while(!(el=view.querySelector(sel))||el.disabled){ if(Date.now()-t0>wait) return false; await sleep(200); } el.click(); return true; };
   const tapNth=async(sel,i)=>{ const els=[...view.querySelectorAll(sel)]; if(els[i]){ els[i].click(); return true; } return false; };
   if(/[?&]notop\b/.test(location.search)) document.documentElement.classList.add("notop");
+  if(/[?&]toppad\b/.test(location.search)) document.documentElement.classList.add("toppad");
   const FILM=/[?&]film\b/.test(location.search), FT=(a,b)=>FILM?b:a;   // ?film: landscape service video, the wrapper page plays its own intro
   async function once(){
     if(FILM){ view.innerHTML=""; try{ parent.postMessage({mo:"screen",screen:"filmintro"},"*"); }catch(e){} await sleep(+((location.search.match(/[?&]film=(\d+)/)||[])[1])||window.FILM_INTRO||5600); }
