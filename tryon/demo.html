@@ -1648,7 +1648,7 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
     if(!await tap('#seeRes',20000)) return; await sleep(FT(2000,2500));
     if(!await tap('[data-act="wear"]')) return; await sleep(150);
     st.sku="bw-02"; st.drape=1; go("tryon"); fast=false;
-    if(ONLY){ await sleep(1400); for(;;){ const n=document.querySelectorAll('[data-drape]').length; for(let i=1;i<=n;i++){ await tapNth('[data-drape]',i%n); await sleep(1300); } } }
+    if(ONLY){ await sleep(1400); for(;;){ const n=document.querySelectorAll('[data-drape]').length; for(let i=1;i<=n;i++){ await tapNth('[data-drape]',i%n); await sleep(500); } } }
     await sleep(FT(700,850));
     { const n=document.querySelectorAll('[data-drape]').length; for(let i=1;i<n;i++){ await tapNth('[data-drape]',i); await sleep(FT(500,700)); } await sleep(FT(0,300)); }
     if(!await tap('[data-act="card"]')) return; await sleep(FT(2400,2400));
