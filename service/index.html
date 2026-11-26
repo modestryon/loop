@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>window.NO_LOOP=true</script>
 <meta charset="utf-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1649,7 +1650,7 @@ html.loopmode .slotanim .sclip img{animation:printonce 1.7s cubic-bezier(.3,.7,.
    On when the page is opened as /loop/, with ?loop, with #loop, or when FORCE_LOOP is set. No camera, no touch. */
 (function(){
   const KIOSK = !!window.KIOSK;   // touch-screen demo at the pop-up: the real flow, plus a one-tap sample model and an idle reset
-  const ON = !KIOSK && (window.FORCE_LOOP || /\/loop(\/|\.html|$)/.test(location.pathname) || /[?&]loop\b/.test(location.search) || location.hash==="#loop");
+  const ON = !KIOSK && !window.NO_LOOP && (window.FORCE_LOOP || /\/loop(\/|\.html|$)/.test(location.pathname) || /[?&]loop\b/.test(location.search) || location.hash==="#loop");
   if(!ON && !KIOSK) return;
   if(KIOSK){
     window.LOOPSHOT={}; for(let i=1;i<=5;i++) LOOPSHOT["bw-02-"+i]="img/loop-bw-02-"+i+".jpg";
