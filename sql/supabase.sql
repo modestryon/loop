@@ -28,3 +28,12 @@ drop policy if exists mo_read on public.mo_events;
 create policy mo_read on public.mo_events for select to authenticated using (true);
 grant insert on public.mo_events to anon;
 grant select, insert on public.mo_events to authenticated;
+
+-- Dashboard readers: only e-mail addresses listed here can read results after signing in.
+create table if not exists public.mo_admins (email text primary key);
+alter table public.mo_admins enable row level security;
+create or replace function public.is_mo_admin() returns boolean language sql stable security definer set search_path = public as $$ select exists (select 1 from public.mo_admins where lower(email) = lower(auth.jwt() ->> 'email')) $$;
+revoke all on function public.is_mo_admin() from public;
+grant execute on function public.is_mo_admin() to authenticated;
+drop policy if exists mo_read on public.mo_events;
+create policy mo_read on public.mo_events for select to authenticated using (public.is_mo_admin());
