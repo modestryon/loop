@@ -27,13 +27,13 @@ th{font-size:11.5px;font-weight:600;color:var(--ink2);background:var(--tile);whi
 @media print{@page{size:A4 landscape;margin:10mm}.noprint{display:none!important}.wrap{padding:0;max-width:none}body{font-size:11px}h2{margin-top:14px}th,td{padding:5px 7px}.big{font-size:14px}.step .v{font-size:16px}.funnel,table,tr{break-inside:avoid}}
 </style></head><body>
 <div id="app"></div>
-<script src="../service/mo-config.js"></script>
+<script src="https://modestryon.github.io/tryon-service/mo-config.js"></script>
 <script>
 const TITLE="자사 히잡 10종 라이브 가상착용 AR 웹 SDK 개발", TZ="Asia/Seoul";
 const GOAL={products:10, users:500, complete:80, click:20, revenue:50000000};
 const q=new URLSearchParams(location.search), LOCAL=/^(localhost|127\.)/.test(location.hostname);
 const CFG=(LOCAL&&q.get("api"))?{url:q.get("api"),key:"local"}:(window.MO_TRACK_CONFIG||{url:"",key:""});
-const SERVICE=LOCAL&&q.get("svc")?q.get("svc"):"../service/", SHOPIMG="https://modestryon.github.io/neoul/img/";
+const SERVICE=LOCAL&&q.get("svc")?q.get("svc"):"https://modestryon.github.io/tryon-service/", SHOPIMG="https://modestryon.github.io/neoul/img/";
 const $=s=>document.querySelector(s), app=$("#app"), esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const won=n=>Math.round(n).toLocaleString("ko-KR")+"원", num=n=>n.toLocaleString("ko-KR");
 const dKST=d=>new Intl.DateTimeFormat("sv-SE",{timeZone:TZ,dateStyle:"short"}).format(d), tKST=d=>new Intl.DateTimeFormat("ko-KR",{timeZone:TZ,dateStyle:"medium",timeStyle:"short"}).format(d);
